@@ -24,13 +24,16 @@
 
 .right-panel{
   position: fixed;
-  float: right;
+  -webkit-box-orient: vertical;
+  top: 0;
+  right: 0;
+  bottom: 0;
   min-width: @right-panel-width;
   margin-left: 20px;
   padding-top: 35px;
   height: 100%;
   display: -webkit-box;
-  background: #fff;
+  background: white;
   box-shadow: rgba(0,0,0,.2) -3px 3px 10px;
   z-index: 1000;
 }
@@ -124,4 +127,58 @@
 }
 
 .header-down {
+}
+
+.orders-title{
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 17px;
+  padding-left: 15px;
+}
+
+.r2{
+  height: auto;
+}
+
+.r1, .r2{
+  width: 100%;
+  box-sizing: content-box;
+  display: block!important;
+  padding-bottom: 13px;
+}
+
+.all-orders{
+  height: 100%;
+  margin-top: 15px;
+  background-color: #F5F5F5;
+}
+
+.clear-orders{
+  float: right;
+  margin-top: 5px;
+  cursor: pointer;
+  padding-right: 15px;
+  font-size: 10px;
+  line-height: 11px;
+  font-weight: 400;
+  color: rgba(0,0,0,.5);
+}
+
+.orange{
+  background-color: #ec890e!important;
+}
+
+.badge{
+  display: inline-block;
+  min-width: 10px;
+  padding: 3px 7px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  background-color: #777;
+  border-radius: 10px;
 }
