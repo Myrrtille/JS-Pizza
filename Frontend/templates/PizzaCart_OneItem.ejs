@@ -1,9 +1,42 @@
-<div>
+<!--<div>
     <%= pizza.title %> (<%= size %>)
-    <div>Ціна: <%= pizza[size].price %> грн.</div>
+    <div>Ціна:<%= pizza[size].price %>
+        грн.
+    </div>
     <div>
         <button class="btn btn-danger minus">-</button>
         <span class="label label-default"><%= quantity %></span>
         <button class="btn btn-success plus">+</button>
+    </div>
+</div>-->
+
+<div class="cart-item">
+    <img class="cart-pizza-icon" scr=<%= pizza.icon%>>
+    <p class="cart-name">
+        <%= pizza.title %>
+        <%if(pizza[size].size == 30){%>
+        (Мала)
+        <%}else if(pizza[size].size == 40){%>
+        (Велика)
+        <%}%>
+    </p>
+    <div class="order-info">
+        <img src="assets/images/size-icon.svg">
+        <span class="pizza-size-cart"><%= pizza[size].size%></span>
+        <img class="weight-image-cart" src="assets/images/weight.svg">
+        <span class="pizza-weight-cart"><%= pizza[size].weight%></span>
+    </div>
+    <div class="price-amount">
+        <span class="cart-price"><%= pizza[size].price%>грн</span>
+        <button class="cart-minus-b cart-circle-b">
+            <span class="glyphicon glyphicon-minus"></span>
+        </button>
+        <span class="cart-pizza-amount">1</span>
+        <button class="cart-plus-b cart-circle-b">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+        <button class="cart-del-b cart-circle-b">
+            <span class="glyphicon glyphicon-remove"></span>
+        </button>
     </div>
 </div>

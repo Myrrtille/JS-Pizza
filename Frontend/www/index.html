@@ -13,87 +13,64 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.5.3/less.min.js"></script>
 
 
+
 </head>
 <body>
-<div id="cart"></div>
 <div class="top-panel">
     <div class="site-icon">
-        <div class="discount-before top-discount">
-        </div>
-        <a class="pizza-logo" href="index.html">
+        <div class="discount top-discount"></div>
+        <div class="pizza-logo">
             <div id="pizza-title2" class="title-1">
                 PIZZA
             </div>
             <div class="title-2">KMA</div>
-        </a>
-    </div>
-    <div class="header-top">
-        <div class="main-header-top-items">
-            <div class="main-header-top-item phone-number visible-xs-inline-block">
-                (044) 222 5 22
-            </div>
-            <div class="main-header-top-item work-days visible-lg-inline-block visible-md-inline-block">
-                24 години/ 7 днів на тиждень
-            </div>
-            <div class="main-header-top-item free-delivery visible-lg-inline-block">
-                Безкоштовна доставка піци
-            </div>
         </div>
     </div>
-    <div class="header-down"></div>
+    <div class="header-top">
+        <div class="header-top-inside">
+            <div class="phone-number visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                (044) 222 5 222
+            </div>
+            <div class="work-days visible-lg-inline-block visible-md-inline-block">
+                24 години/ 7 днів на тиждень
+            </div>
+            <div class="free-delivery visible-lg-inline-block">
+                Безкоштовна доставка піци
+            </div>
+            <button class="btn entr-b">Ввійти</button>
+        </div>
+    </div>
+    <div class="header-down">
+        <span class="pizza-page-tittle">
+            <a href="pizza-page" style="color: white" class="hidden-xs">Піца</a>
+        </span>
+    </div>
+</div>
+<div class="discount-panel">
+    <div class="discount-down"></div>
+    <div class="discount-title">ЦЬОГО ТИЖНЯ  НА ВСЕ</div>
+    <span class="discount-num">-20%</span>
 </div>
 <div class="container">
     <div class="row">
         <div class="left-panel">
-            <div class="row" id="pizza_list">
-                <div class="col-sm-6 col-md-4">
-                    <div class="thumbnail pizza-card">
-                        <img src="assets/images/pizza_1.jpg">
-
-                        <div class="caption"><h3>Thumbnail label</h3>
-
-                            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-
-                            <p>
-                                <a href="#" class="btn btn-primary">Button 2</a>
-                                <a href="#" class="btn btn-default">Button 1</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-6 col-md-4">
-                    <div class="thumbnail pizza-card">
-                        <img src="assets/images/pizza_2.jpg">
-
-                        <div class="caption"><h3>Thumbnail label</h3>
-
-                            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-
-                            <p>
-                                <a href="#" class="btn btn-primary">Button 3</a>
-                                <a href="#" class="btn btn-default">Button 4</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-6 col-md-4">
-                    <div class="thumbnail pizza-card">
-                        <img src="assets/images/pizza_3.jpg">
-
-                        <div class="caption"><h3>Thumbnail label</h3>
-
-                            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-
-                            <p>
-                                <a href="#" class="btn btn-primary">Button 5</a>
-                                <a href="#" class="btn btn-default">Button 6</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+            <div class="page-title">
+                <h2>
+                    <span class="count-title">Усі піци</span>
+                    <span class="badge orange pizza-count">8</span>
+                </h2>
             </div>
+            <div class="all-pizza-type-wrap" id="wrap">
+                <ul class="nav nav-pills all-pizza-type" role="tablist" >
+                    <li class="active" style="color: orange;"><a href="#">Усі</a></li>
+                    <li><a href="#" style="color: orange;">Мясні</a></li>
+                    <li><a href="#" style="color: orange;">З ананасами</a></li>
+                    <li><a href="#" style="color: orange;">З грибами</a></li>
+                    <li><a href="#" style="color: orange;">З морепродуктами</a></li>
+                    <li><a href="#" style="color: orange;">Вега</a></li>
+                </ul>
+            </div>
+            <div class="row" id="pizza_list"></div>
         </div>
         <div class="right-panel">
             <div class="r1">
@@ -103,11 +80,13 @@
                 </span>
                 <span class="clear-orders">Очистити замовлення</span>
             </div>
-            <div class="all-orders r2">
-
-            </div>
+            <div id="cart" class="all-orders"></div>
             <div class="order-state r3">
-                <div class="do-order-button">Замовити</div>
+                <span class="sum-title">Сума замовлення</span>
+                <span class="sum-number">0 грн</span>
+                <div class="do-order-button">
+                    <button class="btn big-b">Замовити</button>
+                </div>
             </div>
         </div>
     </div>
@@ -124,6 +103,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 <!--Own JavaScript -->
-<!--<script type="text/javascript"  src="assets/js/main.js"> </script>-->
+<script type="text/javascript"  src="assets/js/main.js"> </script>
 </body>
 </html>
