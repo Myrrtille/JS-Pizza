@@ -222,18 +222,6 @@
   border-radius: 10px;
 }
 
-.nav {
-  padding-left: 0;
-  margin-bottom: 0;
-}
-
-
-
-ol, ul {
-  margin-top: 0;
-  margin-bottom: 10px;
-}
-
 .all-pizza-type-wrap{
   text-align: center;
   margin: 0 auto;
@@ -242,14 +230,15 @@ ol, ul {
 
 #wrap .active a{
   background-color: @mainColor;
+  color: white;
+}
+
+#wrap a{
+  color: @mainColor;
 }
 
 .all-pizza-type{
   display: inline-block;
-}
-
-.pizza-filter-button{
-
 }
 
 .page-title{
@@ -457,4 +446,8 @@ ol, ul {
   background-image: url(../images/discount.svg);
   background-size: 100px 11px;
   position: absolute;
+}
+
+li:hover{
+cursor: pointer;
 }

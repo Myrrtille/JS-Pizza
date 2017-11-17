@@ -60,14 +60,14 @@
                     <span class="badge orange pizza-count">8</span>
                 </h2>
             </div>
-            <div class="all-pizza-type-wrap" id="wrap">
-                <ul class="nav nav-pills all-pizza-type" role="tablist" >
-                    <li class="active" style="color: orange;"><a href="#">Усі</a></li>
-                    <li><a href="#" style="color: orange;">Мясні</a></li>
-                    <li><a href="#" style="color: orange;">З ананасами</a></li>
-                    <li><a href="#" style="color: orange;">З грибами</a></li>
-                    <li><a href="#" style="color: orange;">З морепродуктами</a></li>
-                    <li><a href="#" style="color: orange;">Вега</a></li>
+            <div class="all-pizza-type-wrap">
+                <ul id="wrap" class="nav nav-pills all-pizza-type" role="tablist" >
+                    <li class="active" id="all"><a>Усі</a></li>
+                    <li id="meat"><a>Мясні</a></li>
+                    <li id="pineapple"><a>З ананасами</a></li>
+                    <li id="mushroom"><a>З грибами</a></li>
+                    <li id="ocean"><a>З морепродуктами</a></li>
+                    <li id="vega"><a>Вега</a></li>
                 </ul>
             </div>
             <div class="row" id="pizza_list"></div>
@@ -76,7 +76,7 @@
             <div class="r1">
                 <span class="orders-title">
                     Замовлення
-                <span class="badge orange">0</span>
+                <span class="amount badge orange">0</span>
                 </span>
                 <span class="clear-orders">Очистити замовлення</span>
             </div>

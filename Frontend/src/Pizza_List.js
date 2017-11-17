@@ -26,7 +26,10 @@ var pizza_info = [
             price: 169
         },
         is_new:true,
-        is_popular:true
+        is_popular:true,
+        meat: true,
+        pineapple: true,
+        all: true
     },
     {
         id:2,
@@ -51,7 +54,10 @@ var pizza_info = [
         },
         is_popular:true,
         is_small:true,
-        is_big:true
+        is_big:true,
+        all: true,
+        meat: true,
+        mushroom: true
     },
     {
         id:3,
@@ -75,7 +81,10 @@ var pizza_info = [
             price: 179
         },
         is_small:true,
-        is_big:true
+        is_big:true,
+        all: true,
+        meat: true,
+        pineapple: true
     },
     {
         id:4,
@@ -99,7 +108,10 @@ var pizza_info = [
             price: 169
         },
         is_small:true,
-        is_big:true
+        is_big:true,
+        all: true,
+        meat: true,
+        mushroom: true
     },
     {
         id:17,
@@ -116,7 +128,9 @@ var pizza_info = [
             size: 30,
             price: 89
         },
-        is_small:true
+        is_small:true,
+        all: true,
+        vega: true
     },
     {
         id:43,
@@ -141,7 +155,11 @@ var pizza_info = [
             price: 180
         },
         is_small:true,
-        is_big:true
+        is_big:true,
+        all: true,
+        meat: true,
+        pineapple: true,
+        mushroom: true
     },
     {
         id:90,
@@ -158,7 +176,9 @@ var pizza_info = [
             size: 40,
             price: 399
         },
-        is_big:true
+        is_big:true,
+        all: true,
+        ocean: true
     },
     {
         id:6,
@@ -181,7 +201,9 @@ var pizza_info = [
             price: 299
         },
         is_small:true,
-        is_big:true
+        is_big:true,
+        all: true,
+        ocean: true
     }
 ];
 
