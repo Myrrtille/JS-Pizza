@@ -17,18 +17,6 @@
     </div>
     <div class="price-amount">
         <span class="cart-price"><%= pizza[size].price*quantity%>грн</span>
-
-        <button id="cart-button" class="cart-minus-b cart-circle-b minus">
-            <span class="glyphicon glyphicon-minus"></span>
-        </button>
-        <span id="cart-button" class="cart-pizza-amount"><%= quantity %></span>
-        <span class="cart-item-amount" style="font-weight: 700"> шт</span>
-        <button id="cart-button" class="cart-plus-b cart-circle-b plus">
-            <span class="glyphicon glyphicon-plus"></span>
-        </button>
-
-        <button id="cart-button" class="cart-del-b cart-circle-b remove">
-            <span class="glyphicon glyphicon-remove"></span>
-        </button>
+        <span id="cart-item-amount" style="padding-left: 1em"><%= pizza[size].quantity%> шт</span>
     </div>
 </div>

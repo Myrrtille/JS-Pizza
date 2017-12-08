@@ -1,0 +1,188 @@
+<% include header.ejs %>
+<% include frame.ejs %>
+
+<div class="container" style="z-index: 100; height: 100%">
+    <div class="row">
+        <div class="left-panel">
+            <div class="contacts-form">
+                <div class="contact-data-label">
+                    1. Контактні дані
+                </div>
+                <div class="col-md-7">
+                    <div id="form-name" class="form-group input-group">
+                        <div class="col-sm-2">
+                            <label class="control-label">Ім'я</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <input class="input-form order-input-name form-control" type="text" placeholder="Ім'я Фамілія">
+                        </div>
+                        <span class="name-help-label" style="display:none; color: #970000; margin-left: 7em">Введіть тільки власне ім'я, без цифр</span>
+                    </div>
+                    <div id="form-phone" class="form-group input-group">
+                        <div class="col-sm-2">
+                            <label>Телефон</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <input class="input-form order-input-phone form-control" placeholder="+380994010999">
+                        </div>
+                        <span class="phone-help-label" style="display:none; color: #970000; margin-left: 7em">Введіть номер телефону у форматі +380 або почніть з 0</span>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label>Адреса</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <input class="input-form order-input-adress form-control" placeholder="Київ, вул. Спаська, 2">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="bs-callout bs-callout-warning">
+                        <h4>Інформація про замовлення</h4>
+                        <p class="order-time">
+                            <b>Приблизний час доставки: </b>
+                            невідомий
+                        </p>
+                        <p class="order-adress">
+                            <b>Адреса доставки: </b>
+                            невідома
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row next-b-field">
+                <button id="create-order-b" class="btn next-b">Далі
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </button>
+            </div>
+            <div class="google-maps" id="googleMap" style="position: relative; overflow: hidden;">
+                <script>
+                    var map;
+                    var directionsService;
+                    var directionsDisplay;
+                    var marker;
+                    var marker_home;
+                    function initMap() {
+                        map = new google.maps.Map(document.getElementById('googleMap'), {
+                            center: {lat: 50.464379, lng: 30.519131},
+                            zoom: 11
+                        });
+
+                        var point = new google.maps.LatLng(50.464379, 30.519131);
+                        marker = new google.maps.Marker({
+                            position: point,
+//map	- це змінна карти створена за допомогою new
+                            map: map,
+                            icon: "assets/images/map-icon.png"
+                        });
+
+                        marker_home = new google.maps.Marker({
+                            position: point,
+//map	- це змінна карти створена за допомогою new
+                            map: map,
+                            icon: "assets/images/home-icon.png"
+                        });
+
+                        marker_home.setVisible(false);
+
+                        directionsDisplay = new google.maps.DirectionsRenderer();
+                        directionsService = new google.maps.DirectionsService();
+                        directionsDisplay.setMap(map);
+                        directionsDisplay.setOptions({suppressMarkers: true, suppressInfoWindows: true});
+
+                        //Дізнаємося адресу місця куди натиснули мишкою
+                        google.maps.event.addListener(map,
+                            'click',function(me){
+                                var coordinates	=	me.latLng;
+                                createRoute(coordinates);
+                                geocodeLatLng(coordinates,	function(err,	adress){
+                                    if(!err)	{
+                                        console.log(adress);
+                                    }	else	{
+                                        console.log("Немає адреси")
+                                    }
+                                })
+                            });
+                    }
+
+                    function geocodeLatLng(latlng,	 callback){
+//Модуль за роботу з адресою
+                        var geocoder	=	new	google.maps.Geocoder();
+                        geocoder.geocode({'location':	latlng},	function(results,	status)	{
+                            if	(status	===	google.maps.GeocoderStatus.OK&&	results[1])	{
+                                var adress =	results[1].formatted_address;
+                                callback(null,	adress);
+                            }	else	{
+                                callback(new	Error("Can't	find	adress"));
+                            }
+                        });
+                    }
+
+                    function createRoute(address){
+                        var point	=	new	google.maps.LatLng(50.464379,30.519131);
+                        var request = {
+                            origin: point,
+                            destination: address,
+                            travelMode: google.maps.TravelMode.DRIVING,
+                            unitSystem: google.maps.UnitSystem.METRIC,
+                            waypoints: [
+                                {
+                                    location: point,
+                                    stopover:false
+                                },{
+                                    location: address,
+                                    stopover:true
+                                }
+                            ],
+                            optimizeWaypoints: true,
+                            provideRouteAlternatives: true,
+                            avoidHighways: true,
+                            avoidTolls: true
+                        };
+                        directionsService.route(request, function(result, status) {
+                            if (status == google.maps.DirectionsStatus.OK) {
+                                directionsDisplay.setDirections(result);
+                                var routes = result.routes;
+                                var leg = routes[0].legs;
+                                var lenght = leg[0].distance.text;
+                                var duration = leg[0].duration.text;
+                            }
+                        });
+
+                        marker_home.position = address;
+                        marker_home.setVisible(true);
+
+                        //directionsDisplay.setOptions({suppressMarkers: true, suppressInfoWindows: true});
+                    }
+
+
+
+                </script>
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_nD3oAxALw3eNv0U_JkceoU2DYAW2UhI&callback=initMap"
+                        async defer></script>
+            </div>
+        </div>
+        <div class="right-panel">
+            <div class="r1">
+                <span class="orders-title">
+                    Замовлення
+                <span class="amount badge orange">0</span>
+                </span>
+            </div>
+            <div id="cart" class="all-orders">
+                <div class="cart-empty">
+                    Пусто в холодильнику?
+                    <br>
+                    Замовте піцу!
+                </div>
+            </div>
+            <div class="do-order-button order-state r3">
+                <span class="sum-title">Сума замовлення</span>
+                <span class="sum-number">0 грн</span>
+                <button class="edit-b">Редагувати замовлення</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include footer.ejs %>

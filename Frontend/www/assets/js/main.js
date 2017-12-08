@@ -1,5 +1,47 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /**
+ * Created by chaika on 09.02.16.
+ */
+var API_URL = "http://localhost:5050";
+
+function backendGet(url, callback) {
+    $.ajax({
+        url: API_URL + url,
+        type: 'GET',
+        success: function(data){
+            callback(null, data);
+        },
+        error: function() {
+            callback(new Error("Ajax Failed"));
+        }
+    })
+}
+
+function backendPost(url, data, callback) {
+    $.ajax({
+        url: API_URL + url,
+        type: 'POST',
+        contentType : 'application/json',
+        data: JSON.stringify(data),
+        success: function(data){
+            callback(null, data);
+        },
+        error: function() {
+            callback(new Error("Ajax Failed"));
+        }
+    })
+}
+
+exports.getPizzaList = function(callback) {
+    backendGet("/api/get-pizza-list/", callback);
+};
+
+exports.createOrder = function(order_info, callback) {
+    backendPost("/api/create-order/", order_info, callback);
+};
+
+},{}],2:[function(require,module,exports){
+/**
  * Created by diana on 12.01.16.
  */
 
@@ -209,7 +251,7 @@ var pizza_info = [
 ];
 
 module.exports = pizza_info;
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 /**
  * Created by chaika on 02.02.16.
  */
@@ -219,31 +261,117 @@ var ejs = require('ejs');
 
 exports.PizzaMenu_OneItem = ejs.compile("<%\r\n\r\nfunction getIngredientsArray(pizza) {\r\n    //Отримує вміст піци\r\n    var content = pizza.content;\r\n    var result = [];\r\n\r\n    //Object.keys повертає масив ключів в об’єкті JavaScript\r\n\r\n    Object.keys(content).forEach(function(key){\r\n\r\n        //a.concat(b) створює спільний масив із масивів a та b\r\n        result = result.concat(content[key]);\r\n    });\r\n\r\n    return result;\r\n}\r\n\r\n   %>\r\n<div class=\"col-md-6 col-lg-4 pizza-card\">\r\n    <div class=\"thumbnail\">\r\n        <img class=\"pizza-icon\" src=\"<%= pizza.icon %>\">\r\n\r\n        <%if(pizza.is_new) {%>\r\n        <span class=\"label label-danger\">Нова</span>\r\n        <%} else if(pizza.is_popular) {%>\r\n        <span class=\"label label-success\">Популярна</span>\r\n        <%}%>\r\n\r\n        <div class=\"caption\">\r\n            <span class=\"title\"><%= pizza.title %></span>\r\n            <div class=\"type\"><%= pizza.type %></div>\r\n            <div class=\"description\">\r\n                <%= getIngredientsArray(pizza).join(\", \") %>\r\n            </div>\r\n\r\n            <div class=\"row\">\r\n                <%\r\n                function\tgetPizzaColumn(pizza)\t{\r\n                    if(pizza.big_size&&\tpizza.small_size)\t{\r\n                        return\t\"col-sm-6\";\r\n                    }\telse\t{\treturn\t\"col-sm-12\";}\r\n                }\r\n                %>\r\n                <%if(pizza.small_size) {%>\r\n                <div class=\"<%= getPizzaColumn(pizza)%> pizza-small\">\r\n                    <div>\r\n                        <img src=\"assets/images/size-icon.svg\">\r\n                        <span class=\"diagonal\"><%= pizza.small_size.size%></span>\r\n                    </div>\r\n                    <div>\r\n                        <img class=\"ui right spaced avatar image\" src=\"assets/images/weight.svg\">\r\n                        <span class=\"diagonal\"><%= pizza.small_size.weight%></span>\r\n                    </div>\r\n                    <h2>\r\n                        <div class=\"price\">\r\n                            <%= pizza.small_size.price%>\r\n                            <div style=\"font-size:14px;\">\r\n                                грн.\r\n                            </div>\r\n                        </div>\r\n                    </h2>\r\n                    <button class=\"btn buy-small\">Купити</button>\r\n                </div>\r\n                <%}%>\r\n                <%if(pizza.big_size) {%>\r\n                <div class=\"<%=\tgetPizzaColumn(pizza)%> pizza-big\"><div>\r\n                        <img src=\"assets/images/size-icon.svg\">\r\n                        <span class=\"diagonal\"><%= pizza.big_size.size%></span>\r\n                    </div>\r\n                    <div>\r\n                        <img class=\"ui right spaced avatar image\" src=\"assets/images/weight.svg\">\r\n                        <span class=\"diagonal\"><%= pizza.big_size.weight%></span>\r\n                    </div>\r\n                    <h2>\r\n                        <div class=\"price\">\r\n                            <%= pizza.big_size.price%>\r\n                            <div style=\"font-size:14px;\">\r\n                                грн.\r\n                            </div>\r\n                        </div>\r\n                    </h2>\r\n                    <button class=\"btn buy-big\">Купити</button>\r\n                </div>\r\n                <%}%>\r\n            </div>\r\n        </div>\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n</div>\r\n\r\n        <!-- Перед тим щоб показати кнопку необхідно переконатися, що піца має великий розмір -->\r\n        <!--<button class=\"btn btn-primary buy-big\">Купити велику</button>-->\r\n</div>");
 
-exports.PizzaCart_OneItem = ejs.compile("\r\n<div class=\"cart-item\">\r\n    <img class=\"cart-pizza-icon\" scr=<%= pizza.icon%>>\r\n    <p class=\"cart-name\">\r\n        <%= pizza.title %>\r\n        <%if(pizza[size].size == 30){%>\r\n        (Мала)\r\n        <%}else if(pizza[size].size == 40){%>\r\n        (Велика)\r\n        <%}%>\r\n    </p>\r\n    <div class=\"order-info\">\r\n        <img src=\"assets/images/size-icon.svg\">\r\n        <span class=\"pizza-size-cart\"><%= pizza[size].size%></span>\r\n        <img class=\"weight-image-cart\" src=\"assets/images/weight.svg\">\r\n        <span class=\"pizza-weight-cart\"><%= pizza[size].weight%></span>\r\n    </div>\r\n    <div class=\"price-amount\">\r\n        <span class=\"cart-price\"><%= pizza[size].price%>грн</span>\r\n        <button class=\"cart-minus-b cart-circle-b minus\">\r\n            <span class=\"glyphicon glyphicon-minus\"></span>\r\n        </button>\r\n        <span class=\"cart-pizza-amount\"><%= quantity %></span>\r\n        <button class=\"cart-plus-b cart-circle-b plus\">\r\n            <span class=\"glyphicon glyphicon-plus\"></span>\r\n        </button>\r\n        <button class=\"cart-del-b cart-circle-b remove\">\r\n            <span class=\"glyphicon glyphicon-remove\"></span>\r\n        </button>\r\n    </div>\r\n</div>");
+exports.PizzaCart_OneItem = ejs.compile("\r\n<div class=\"cart-item\">\r\n    <img class=\"cart-pizza-icon\" src=\"<%= pizza.icon%>\">\r\n    <p class=\"cart-name\">\r\n        <%= pizza.title %>\r\n        <%if(pizza[size].size == 30){%>\r\n        (Мала)\r\n        <%}else if(pizza[size].size == 40){%>\r\n        (Велика)\r\n        <%}%>\r\n    </p>\r\n    <div class=\"order-info\">\r\n        <img src=\"assets/images/size-icon.svg\">\r\n        <span class=\"pizza-size-cart\"><%= pizza[size].size%></span>\r\n        <img class=\"weight-image-cart\" src=\"assets/images/weight.svg\">\r\n        <span class=\"pizza-weight-cart\"><%= pizza[size].weight%></span>\r\n    </div>\r\n    <div class=\"price-amount\">\r\n        <span class=\"cart-price\"><%= pizza[size].price*quantity%>грн</span>\r\n\r\n        <button id=\"cart-button\" class=\"cart-minus-b cart-circle-b minus\">\r\n            <span class=\"glyphicon glyphicon-minus\"></span>\r\n        </button>\r\n        <span id=\"cart-button\" class=\"cart-pizza-amount\"><%= quantity %></span>\r\n        <span class=\"cart-item-amount\" style=\"font-weight: 700\"> шт</span>\r\n        <button id=\"cart-button\" class=\"cart-plus-b cart-circle-b plus\">\r\n            <span class=\"glyphicon glyphicon-plus\"></span>\r\n        </button>\r\n\r\n        <button id=\"cart-button\" class=\"cart-del-b cart-circle-b remove\">\r\n            <span class=\"glyphicon glyphicon-remove\"></span>\r\n        </button>\r\n    </div>\r\n</div>");
 
-},{"ejs":7}],3:[function(require,module,exports){
+},{"ejs":8}],4:[function(require,module,exports){
 /**
  * Created by chaika on 25.01.16.
  */
+
 
 $(function(){
     //This code will execute when the page is ready
     var PizzaMenu = require('./pizza/PizzaMenu');
     var PizzaCart = require('./pizza/PizzaCart');
-    var Pizza_List = require('./Pizza_List');
+    //var Pizza_List = require('./Pizza_List');
 
     PizzaCart.initialiseCart();
     PizzaMenu.initialiseMenu();
+
+    function checkNameInput() {
+        var stringValue = $('.order-input-name').val();
+        //if(stringValue.charAt(0))
+        var reg=/[^а-яА-ЯїЇєЄіІёЁa-zA-Z ]/;
+        if(reg.test(stringValue) || stringValue.length == 0){
+            $('#form-name').addClass("has-error");
+            document.getElementsByClassName('name-help-label')[0].style.display='inline-block';
+        }else{
+            $('#form-name').removeClass("has-error");
+            $('#form-name').addClass("has-success");
+            document.getElementsByClassName('name-help-label')[0].style.display='none';
+        }
+    }
+
+    function checkPhoneInputError(){
+        $('#form-phone').addClass("has-error");
+        document.getElementsByClassName('phone-help-label')[0].style.display='inline-block';
+    }
+
+    function checkPhoneInputSuccess(){
+        $('#form-phone').removeClass("has-error");
+        $('#form-phone').addClass("has-success");
+        document.getElementsByClassName('phone-help-label')[0].style.display='none';
+        //Прочитати дані із POST	та надіслати їх добуток
+       // app.post('/calculator/multiply/',	function	(req,	res)	{
+         //   var data	=	req.body;	//Дані із запиту
+           // res.send({
+             //   result:	data.a *	data.b
+           // });
+    //    });
+    }
+
+    function checkPhoneInput(){
+        var stringValue = $('.order-input-phone').val();
+        var size = stringValue.length;
+
+        if(stringValue.charAt(0) == '+'){
+            if(stringValue.charAt(1) == '3'){
+                if(stringValue.charAt(2) == '8'){
+                    if(stringValue.charAt(3) == '0'){
+                        var rest = stringValue.substring(4, stringValue.length);
+                        var reg = /^\d+$/;
+                        if(!reg.test(rest)){
+                            checkPhoneInputError();
+                        }else if (rest.length == 9){
+                            checkPhoneInputSuccess();
+                        }
+                    }else{
+                        checkPhoneInputError();
+                    }
+                }else{
+                    checkPhoneInputError();
+                }
+            }else{
+                checkPhoneInputError();
+            }
+        }else if(stringValue.charAt(0) === '0'){
+            var rest = stringValue.substring(1, stringValue.length);
+            var reg = /^\d+$/;
+            if(!reg.test(rest)){
+                checkPhoneInputError();
+            }else if(rest.length == 9){
+                checkPhoneInputSuccess();
+            }
+        }else{
+            checkPhoneInputError();
+        }
+    }
+
+
+
+    $('.order-input-name').on('input', function(){
+       checkNameInput();
+       //
+    });
+
+    $('.order-input-phone').on('input', function(){
+        checkPhoneInput();
+        //
+    });
+
+
 
 
 });
 
 
-},{"./Pizza_List":1,"./pizza/PizzaCart":4,"./pizza/PizzaMenu":5}],4:[function(require,module,exports){
+},{"./pizza/PizzaCart":5,"./pizza/PizzaMenu":6}],5:[function(require,module,exports){
 /**
  * Created by chaika on 02.02.16.
  */
 var Templates = require('../Templates');
+
+var API = require('../API');
 
 myStorage = localStorage;
 
@@ -263,8 +391,10 @@ function addToCart(pizza, size, price) {
     //Додавання однієї піци в кошик покупок
     var add = false;
     for(var i=0; i<Cart.length; i++){
-        if(Cart[i].pizza == pizza && Cart[i].size == size){
+        if(Cart[i].pizza.id == pizza.id && Cart[i].size == size){
             Cart[i].quantity += 1;
+            Cart[i].price_label += Cart[i].price;
+
             add = true;
         }
     }
@@ -273,7 +403,8 @@ function addToCart(pizza, size, price) {
             pizza: pizza,
             size: size,
             quantity: 1,
-            price: price
+            price: price,
+            price_label: price
         });
     }
 
@@ -315,53 +446,68 @@ function getPizzaInCart() {
 function updateCart() {
     //Функція викликається при зміні вмісту кошика
     //Тут можна наприклад показати оновлений кошик на екрані та зберегти вміт кошика в Local Storage
-
+    localStorage.Cart = JSON.stringify(Cart);
     //Очищаємо старі піци в кошику
     $cart.html("");
 
-    //Онволення однієї піци
-    function showOnePizzaInCart(cart_item) {
-        var html_code = Templates.PizzaCart_OneItem(cart_item);
+    if(Cart.length === 0){
+        $cart.html("<div class=\"cart-empty\">\n" +
+            "                    \Пусто в холодильнику?\n" +
+            "                    <br>\n" +
+            "                    \Замовте піцу!\n" +
+            "                </div>");
+        $('#order-button').prop('disabled', true);
+    }else {
+        $('#order-button').prop('disabled', false);
+        //Онволення однієї піци
+        function showOnePizzaInCart(cart_item) {
+            var html_code = Templates.PizzaCart_OneItem(cart_item);
 
-        var $node = $(html_code);
+            var $node = $(html_code);
 
-        $node.find(".plus").click(function(){
-            //Збільшуємо кількість замовлених піц
-            cart_item.quantity += 1;
+            $node.find(".plus").click(function () {
+                //Збільшуємо кількість замовлених піц
+                cart_item.quantity += 1;
+                cart_item.price_label += cart_item.price;
 
-            //Оновлюємо відображення
-            updateCart();
-        });
-        $node.find(".minus").click(function(){
-            //Збільшуємо кількість замовлених піц
-            cart_item.quantity -= 1;
+                //Оновлюємо відображення
+                updateCart();
+            });
+            $node.find(".minus").click(function () {
+                //Збільшуємо кількість замовлених піц
+                cart_item.quantity -= 1;
+                cart_item.price_label -= cart_item.price;
 
-            if(cart_item.quantity == 0)
+                if (cart_item.quantity == 0)
+                    removeFromCart(cart_item);
+                //Оновлюємо відображення
+                updateCart();
+            });
+            $node.find(".remove").click(function () {
+
                 removeFromCart(cart_item);
-            //Оновлюємо відображення
-            updateCart();
-        });
-        $node.find(".remove").click(function(){
 
-            removeFromCart(cart_item);
+                //Оновлюємо відображення
+                updateCart();
+            });
 
-            //Оновлюємо відображення
-            updateCart();
-        });
+            $('.clear_orders').click(function () {
+                for (var i = 0; i < Cart.length; i++)
+                    removeFromCart(Cart[i]);
 
-        $('.clear_orders').click(function () {
-            for(var i=0; i<Cart.length; i++)
-                removeFromCart(Cart[i]);
+                updateCart();
+            });
 
-            updateCart();
-        });
+            $cart.append($node);
 
-        $cart.append($node);
+        }
+
+        Cart.forEach(showOnePizzaInCart);
     }
 
     var total_price = 0;
     for(var i=0; i<Cart.length; i++){
-        total_price += Cart[i].price * Cart[i].quantity;
+        total_price += Cart[i].price_label;
     }
 
     $('.sum-number').each(function(){
@@ -371,9 +517,30 @@ function updateCart() {
         $(this).text(Cart.length);
     });
 
-    Cart.forEach(showOnePizzaInCart);
+    if(window.location == "http://localhost:5050/"){
+        $('.cart-item-amount').css("display","none");
+        $('.cart-circle-b').css("display", "inline-block");
+       // $('.cart-pizza-amount').css("display", "inline-block");
+    }else if (window.location == "http://localhost:5050/order.html"){
+        $('.cart-item-amount').css("display","inline-block");
+        $('.cart-circle-b').css("display", "none");
+       // $('.cart-pizza-amount').css("display", "none");
+    }
 
-    localStorage.Cart = JSON.stringify(Cart);
+
+}
+
+function createOrder(callback){
+    API.createOrder({
+        name: "Client name",
+        phone: "0636010689",
+        order: Cart
+    }, function (err, result) {
+        if(err){
+            return callback(err);
+        }
+        callback(null, result);
+    });
 }
 
 exports.removeFromCart = removeFromCart;
@@ -381,9 +548,10 @@ exports.addToCart = addToCart;
 
 exports.getPizzaInCart = getPizzaInCart;
 exports.initialiseCart = initialiseCart;
+exports.createOrder = createOrder;
 
 exports.PizzaSize = PizzaSize;
-},{"../Templates":2}],5:[function(require,module,exports){
+},{"../API":1,"../Templates":3}],6:[function(require,module,exports){
 /**
  * Created by chaika on 02.02.16.
  */
@@ -422,8 +590,14 @@ function showPizzaList(list) {
         $(this).text(pizza_shown.length);
     });
 
+    $('.count-title').each(function () {
+        $(this).text(pizzaMenuLabel);
+    });
+
     list.forEach(showOnePizza);
 }
+
+var pizzaMenuLabel = "Усі піци";
 
 $(".nav-pills li").on("click", function(){
     $(".nav-pills").find(".active").removeClass("active");
@@ -439,24 +613,36 @@ function filterPizza(filter) {
     pizza_shown = [];
 
     for(var i=0; i<Pizza_List.length; i++){
-        if(filter === "all")
+        if(filter === "all"){
+            pizzaMenuLabel = "Усі піци";
             if(Pizza_List[i].all)
                 pizza_shown[pizza_shown.length] = Pizza_List[i];
-        if(filter === "meat")
+        }
+        else if(filter === "meat"){
+            pizzaMenuLabel = "М'ясні піци";
             if(Pizza_List[i].meat)
                 pizza_shown[pizza_shown.length] = Pizza_List[i];
-        if(filter === "pineapple")
+        }
+        else if(filter === "pineapple"){
+            pizzaMenuLabel = "Піци з ананасами";
             if(Pizza_List[i].pineapple)
                 pizza_shown[pizza_shown.length] = Pizza_List[i];
-        if(filter === "mushroom")
-            if(Pizza_List[i].mushroom)
-                pizza_shown[pizza_shown.length] = Pizza_List[i];
-        if(filter === "ocean")
-            if(Pizza_List[i].ocean)
-                pizza_shown[pizza_shown.length] = Pizza_List[i];
-        if(filter === "vega")
-            if(Pizza_List[i].vega)
-                pizza_shown[pizza_shown.length] = Pizza_List[i];
+        }
+        else if(filter === "mushroom"){
+            pizzaMenuLabel = "Піци з грибами";
+                if(Pizza_List[i].mushroom)
+                    pizza_shown[pizza_shown.length] = Pizza_List[i];
+            }
+        else if(filter === "ocean"){
+            pizzaMenuLabel = "Піци з морепродуктами";
+                if(Pizza_List[i].ocean)
+                    pizza_shown[pizza_shown.length] = Pizza_List[i];
+            }
+        else if(filter === "vega"){
+            pizzaMenuLabel = "Вегетаріанські піци";
+                if(Pizza_List[i].vega)
+                    pizza_shown[pizza_shown.length] = Pizza_List[i];
+            }
     }
 
     //Показати відфільтровані піци
@@ -471,9 +657,9 @@ function initialiseMenu() {
 exports.filterPizza = filterPizza;
 exports.initialiseMenu = initialiseMenu;
 
-},{"../Pizza_List":1,"../Templates":2,"./PizzaCart":4}],6:[function(require,module,exports){
+},{"../Pizza_List":2,"../Templates":3,"./PizzaCart":5}],7:[function(require,module,exports){
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -1341,7 +1527,7 @@ if (typeof window != 'undefined') {
   window.ejs = exports;
 }
 
-},{"../package.json":9,"./utils":8,"fs":6,"path":10}],8:[function(require,module,exports){
+},{"../package.json":10,"./utils":9,"fs":7,"path":11}],9:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -1507,7 +1693,7 @@ exports.cache = {
   }
 };
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 module.exports={
   "_args": [
     [
@@ -1591,7 +1777,7 @@ module.exports={
   "version": "2.5.7"
 }
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -1819,7 +2005,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":11}],11:[function(require,module,exports){
+},{"_process":12}],12:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -2005,4 +2191,4 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}]},{},[3]);
+},{}]},{},[4]);

@@ -1,0 +1,31 @@
+<% include common/header.ejs %>
+
+<% include common/frame.ejs %>
+<div class="container">
+    <div class="row">
+        <% include common/pizza-page-menu.ejs%>
+        <div class="right-panel">
+            <div class="r1">
+                <span class="orders-title">
+                    Замовлення
+                <span class="amount badge orange">0</span>
+                </span>
+                <span class="clear-orders">Очистити замовлення</span>
+            </div>
+            <div id="cart" class="all-orders">
+            </div>
+            <div class="order-state r3">
+                <span class="sum-title">Сума замовлення</span>
+                <span class="sum-number">0 грн</span>
+                <div class="do-order-button">
+                    <button id="order-button" class="btn big-b" onclick="window.location.href=('/order.html')" disabled>Замовити</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<% include common/footer.ejs %>
+
+

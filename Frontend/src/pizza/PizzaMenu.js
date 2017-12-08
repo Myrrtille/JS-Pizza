@@ -36,8 +36,14 @@ function showPizzaList(list) {
         $(this).text(pizza_shown.length);
     });
 
+    $('.count-title').each(function () {
+        $(this).text(pizzaMenuLabel);
+    });
+
     list.forEach(showOnePizza);
 }
+
+var pizzaMenuLabel = "Усі піци";
 
 $(".nav-pills li").on("click", function(){
     $(".nav-pills").find(".active").removeClass("active");
@@ -53,24 +59,36 @@ function filterPizza(filter) {
     pizza_shown = [];
 
     for(var i=0; i<Pizza_List.length; i++){
-        if(filter === "all")
+        if(filter === "all"){
+            pizzaMenuLabel = "Усі піци";
             if(Pizza_List[i].all)
                 pizza_shown[pizza_shown.length] = Pizza_List[i];
-        if(filter === "meat")
+        }
+        else if(filter === "meat"){
+            pizzaMenuLabel = "М'ясні піци";
             if(Pizza_List[i].meat)
                 pizza_shown[pizza_shown.length] = Pizza_List[i];
-        if(filter === "pineapple")
+        }
+        else if(filter === "pineapple"){
+            pizzaMenuLabel = "Піци з ананасами";
             if(Pizza_List[i].pineapple)
                 pizza_shown[pizza_shown.length] = Pizza_List[i];
-        if(filter === "mushroom")
-            if(Pizza_List[i].mushroom)
-                pizza_shown[pizza_shown.length] = Pizza_List[i];
-        if(filter === "ocean")
-            if(Pizza_List[i].ocean)
-                pizza_shown[pizza_shown.length] = Pizza_List[i];
-        if(filter === "vega")
-            if(Pizza_List[i].vega)
-                pizza_shown[pizza_shown.length] = Pizza_List[i];
+        }
+        else if(filter === "mushroom"){
+            pizzaMenuLabel = "Піци з грибами";
+                if(Pizza_List[i].mushroom)
+                    pizza_shown[pizza_shown.length] = Pizza_List[i];
+            }
+        else if(filter === "ocean"){
+            pizzaMenuLabel = "Піци з морепродуктами";
+                if(Pizza_List[i].ocean)
+                    pizza_shown[pizza_shown.length] = Pizza_List[i];
+            }
+        else if(filter === "vega"){
+            pizzaMenuLabel = "Вегетаріанські піци";
+                if(Pizza_List[i].vega)
+                    pizza_shown[pizza_shown.length] = Pizza_List[i];
+            }
     }
 
     //Показати відфільтровані піци
