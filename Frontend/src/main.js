@@ -4,6 +4,9 @@
 
 
 $(function(){
+
+
+
     //This code will execute when the page is ready
     var PizzaMenu = require('./pizza/PizzaMenu');
     var PizzaCart = require('./pizza/PizzaCart');
@@ -12,6 +15,10 @@ $(function(){
     PizzaCart.initialiseCart();
     PizzaMenu.initialiseMenu();
 
+    var bool_name = false;
+    var bool_phone = false;
+    var bool_address = true;
+
     function checkNameInput() {
         var stringValue = $('.order-input-name').val();
         //if(stringValue.charAt(0))
@@ -19,29 +26,26 @@ $(function(){
         if(reg.test(stringValue) || stringValue.length == 0){
             $('#form-name').addClass("has-error");
             document.getElementsByClassName('name-help-label')[0].style.display='inline-block';
+            bool_name = false;
         }else{
             $('#form-name').removeClass("has-error");
             $('#form-name').addClass("has-success");
             document.getElementsByClassName('name-help-label')[0].style.display='none';
+            bool_name = true;
         }
     }
 
     function checkPhoneInputError(){
         $('#form-phone').addClass("has-error");
         document.getElementsByClassName('phone-help-label')[0].style.display='inline-block';
+        bool_phone = false;
     }
 
     function checkPhoneInputSuccess(){
         $('#form-phone').removeClass("has-error");
         $('#form-phone').addClass("has-success");
         document.getElementsByClassName('phone-help-label')[0].style.display='none';
-        //Прочитати дані із POST	та надіслати їх добуток
-       // app.post('/calculator/multiply/',	function	(req,	res)	{
-         //   var data	=	req.body;	//Дані із запиту
-           // res.send({
-             //   result:	data.a *	data.b
-           // });
-    //    });
+        bool_phone = true;
     }
 
     function checkPhoneInput(){
@@ -85,16 +89,21 @@ $(function(){
 
     $('.order-input-name').on('input', function(){
        checkNameInput();
-       //
+       sendData();
     });
 
     $('.order-input-phone').on('input', function(){
         checkPhoneInput();
-        //
+        sendData();
     });
 
-
-
+    function sendData(){
+        if(bool_name && bool_phone && bool_address){
+            var name = $('.order-input-name').val();
+            var phone = $('.order-input-phone').val();
+            PizzaCart.createOrder(name, phone);
+        }
+    }
 
 });
 

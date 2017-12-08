@@ -159,13 +159,12 @@ function updateCart() {
        // $('.cart-pizza-amount').css("display", "none");
     }
 
-
 }
 
-function createOrder(callback){
+function createOrder(name, phone, callback){
     API.createOrder({
-        name: "Client name",
-        phone: "0636010689",
+        name: name,
+        phone: phone,
         order: Cart
     }, function (err, result) {
         if(err){
