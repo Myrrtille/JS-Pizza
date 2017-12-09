@@ -27,7 +27,7 @@
                         </div>
                         <span class="phone-help-label" style="display:none; color: #970000; margin-left: 7em">Введіть номер телефону у форматі +380 або почніть з 0</span>
                     </div>
-                    <div class="form-group">
+                    <div id="form-address" class="form-group input-group">
                         <div class="col-sm-2">
                             <label>Адреса</label>
                         </div>
@@ -45,7 +45,7 @@
                         </p>
                         <p class="order-adress">
                             <b>Адреса доставки: </b>
-                            невідома
+                            невідомо
                         </p>
                     </div>
                 </div>
@@ -56,8 +56,8 @@
                 </button>
             </div>
             <div class="google-maps" id="googleMap" style="position: relative; overflow: hidden;">
-                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_nD3oAxALw3eNv0U_JkceoU2DYAW2UhI&callback=initMap"
-                        async defer></script>
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_nD3oAxALw3eNv0U_JkceoU2DYAW2UhI">
+                </script>
                 <!--<script src="https://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>
                 <script src="/assets/gmap3.js?body=1" type="text/javascript"></script>-->
             </div>
@@ -79,7 +79,7 @@
             <div class="do-order-button order-state r3">
                 <span class="sum-title">Сума замовлення</span>
                 <span class="sum-number">0 грн</span>
-                <button class="edit-b">Редагувати замовлення</button>
+                <button class="edit-b" onclick="window.location.href=('/')">Редагувати замовлення</button>
             </div>
         </div>
     </div>

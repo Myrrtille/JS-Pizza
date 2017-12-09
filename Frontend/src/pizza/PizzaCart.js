@@ -151,8 +151,9 @@ function updateCart() {
 
     if(window.location == "http://localhost:5050/"){
         $('.cart-item-amount').css("display","none");
+        //$('.cart-circle-b').attr('hidden', true);
         $('.cart-circle-b').css("display", "inline-block");
-       // $('.cart-pizza-amount').css("display", "inline-block");
+        $('.cart-pizza-amount').css("display", "inline-block");
     }else if (window.location == "http://localhost:5050/order.html"){
         $('.cart-item-amount').css("display","inline-block");
         $('.cart-circle-b').css("display", "none");
