@@ -19,6 +19,13 @@ var Cart = [];
 //HTML едемент куди будуть додаватися піци
 var $cart = $("#cart");
 
+var TOTAL_PRICE = 0;
+
+function getTotal(){
+    return total_price;
+}
+
+
 function addToCart(pizza, size, price) {
     //Додавання однієї піци в кошик покупок
     var add = false;
@@ -143,7 +150,7 @@ function updateCart() {
     }
 
     $('.sum-number').each(function(){
-        $(this).text(total_price + " грн");
+        $(this).text(total_price);
     });
     $('.amount').each(function () {
         $(this).text(Cart.length);

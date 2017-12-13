@@ -20,7 +20,7 @@
                     </div>
                     <div id="form-phone" class="form-group input-group">
                         <div class="col-sm-2">
-                            <label>Телефон</label>
+                            <label class="control-label">Телефон</label>
                         </div>
                         <div class="col-sm-10">
                             <input class="input-form order-input-phone form-control" placeholder="+380994010999">
@@ -29,7 +29,7 @@
                     </div>
                     <div id="form-address" class="form-group input-group">
                         <div class="col-sm-2">
-                            <label>Адреса</label>
+                            <label class="control-label">Адреса</label>
                         </div>
                         <div class="col-sm-10">
                             <input class="input-form order-input-adress form-control" placeholder="Київ, вул. Спаська, 2">
@@ -50,6 +50,8 @@
                     </div>
                 </div>
             </div>
+            <script	src="//static.liqpay.com/libjs/checkout.js"></script>
+            <div id="liqpay"></div>
             <div class="row next-b-field">
                 <button id="create-order-b" class="btn next-b">Далі
                     <span class="glyphicon glyphicon-chevron-right"></span>
@@ -78,7 +80,8 @@
             </div>
             <div class="do-order-button order-state r3">
                 <span class="sum-title">Сума замовлення</span>
-                <span class="sum-number">0 грн</span>
+                <span class="sum-number">0</span>
+                <span> грн</span>
                 <button class="edit-b" onclick="window.location.href=('/')">Редагувати замовлення</button>
             </div>
         </div>

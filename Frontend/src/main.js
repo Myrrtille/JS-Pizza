@@ -2,8 +2,7 @@
  * Created by chaika on 25.01.16.
  */
 
-
-$(function(){
+$(function() {
 
     var map;
     var directionsService;
@@ -48,17 +47,18 @@ $(function(){
 
         //Дізнаємося адресу місця куди натиснули мишкою
         google.maps.event.addListener(map,
-            'click',function(me){
-                var coordinates	=	me.latLng;
+            'click', function (me) {
+                var coordinates = me.latLng;
                 createRoute(coordinates);
-                geocodeLatLng(coordinates,	function(err,	adress){
-                    if(!err)	{
+                geocodeLatLng(coordinates, function (err, adress) {
+                    if (!err) {
                         console.log(adress);
-
+                        $(".order-input-adress").val(adress);
                         $(".order-adress").html("<b>Адреса доставки: </b>\n" +
                             adress +
                             "                </b>");
-                    }	else	{
+                        $('#form-address').addClass("has-success");
+                    } else {
                         console.log("Немає адреси")
                     }
                 })
@@ -67,21 +67,21 @@ $(function(){
     }
 
 //Дізнаємося адресу за координатами
-    function geocodeLatLng(latlng,	 callback){
+    function geocodeLatLng(latlng, callback) {
 //Модуль за роботу з адресою
-        var geocoder	=	new	google.maps.Geocoder();
-        geocoder.geocode({'location':	latlng},	function(results,	status)	{
-            if	(status	===	google.maps.GeocoderStatus.OK&&	results[1])	{
-                var adress =	results[1].formatted_address;
-                callback(null,	adress);
-            }	else	{
-                callback(new	Error("Can't	find	adress"));
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({'location': latlng}, function (results, status) {
+            if (status === google.maps.GeocoderStatus.OK && results[1]) {
+                var adress = results[1].formatted_address;
+                callback(null, adress);
+            } else {
+                callback(new Error("Can't	find	adress"));
             }
         });
     }
 
-    function createRoute(address, callback){
-        var point	=	new	google.maps.LatLng(50.464379,30.519131);
+    function createRoute(address, callback) {
+        var point = new google.maps.LatLng(50.464379, 30.519131);
         var request = {
             origin: point,
             destination: address,
@@ -90,10 +90,10 @@ $(function(){
             waypoints: [
                 {
                     location: point,
-                    stopover:false
-                },{
+                    stopover: false
+                }, {
                     location: address,
-                    stopover:true
+                    stopover: true
                 }
             ],
             optimizeWaypoints: true,
@@ -101,7 +101,7 @@ $(function(){
             avoidHighways: true,
             avoidTolls: true
         };
-        directionsService.route(request, function(result, status) {
+        directionsService.route(request, function (result, status) {
             if (status == google.maps.DirectionsStatus.OK) {
                 directionsDisplay.setDirections(result);
                 var routes = result.routes;
@@ -113,28 +113,27 @@ $(function(){
                     "                </b>");
             }
         });
-
         marker_home.position = address;
         marker_home.setVisible(true);
     }
 
-    function geocodeAddress(address,	 callback)	{
-        var geocoder	=	new	google.maps.Geocoder();
-        geocoder.geocode({'address':	address},	function(results,	status)	{
-            if	(status	===	google.maps.GeocoderStatus.OK &&	results[0])	{
-                var coordinates	=	results[0].geometry.location;
+    function geocodeAddress(address, callback) {
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({'address': address}, function (results, status) {
+            if (status === google.maps.GeocoderStatus.OK && results[0]) {
+                var coordinates = results[0].geometry.location;
                 createRoute(coordinates, callback);
                 $(".order-adress").html("<b>Адреса доставки: </b>\n" +
                     address +
                     "                </b>");
-
-            }	else	{
-                callback(new	Error("Can	not	find the	adress"));
+                $('#form-address').addClass("has-success");
+            } else {
+                callback(new Error("Can	not	find the	adress"));
             }
         });
     }
 
-   // google.maps.event.addDomListener(window,	 'load',	initMap);
+    // google.maps.event.addDomListener(window,	 'load',	initMap);
 
     //This code will execute when the page is ready
     var PizzaMenu = require('./pizza/PizzaMenu');
@@ -151,100 +150,125 @@ $(function(){
     function checkNameInput() {
         var stringValue = $('.order-input-name').val();
         //if(stringValue.charAt(0))
-        var reg=/[^а-яА-ЯїЇєЄіІёЁa-zA-Z ]/;
-        if(reg.test(stringValue) || stringValue.length == 0){
+        var reg = /[^а-яА-ЯїЇєЄіІёЁa-zA-Z ]/;
+        if (reg.test(stringValue) || stringValue.length == 0) {
             $('#form-name').addClass("has-error");
-            document.getElementsByClassName('name-help-label')[0].style.display='inline-block';
+            document.getElementsByClassName('name-help-label')[0].style.display = 'inline-block';
             bool_name = false;
-        }else{
+        } else {
             $('#form-name').removeClass("has-error");
             $('#form-name').addClass("has-success");
-            document.getElementsByClassName('name-help-label')[0].style.display='none';
+            document.getElementsByClassName('name-help-label')[0].style.display = 'none';
             bool_name = true;
         }
     }
 
-    function checkPhoneInputError(){
+    function checkPhoneInputError() {
         $('#form-phone').addClass("has-error");
-        document.getElementsByClassName('phone-help-label')[0].style.display='inline-block';
+        document.getElementsByClassName('phone-help-label')[0].style.display = 'inline-block';
         bool_phone = false;
     }
 
-    function checkPhoneInputSuccess(){
+    function checkPhoneInputSuccess() {
         $('#form-phone').removeClass("has-error");
         $('#form-phone').addClass("has-success");
-        document.getElementsByClassName('phone-help-label')[0].style.display='none';
+        document.getElementsByClassName('phone-help-label')[0].style.display = 'none';
         bool_phone = true;
     }
 
-    function checkPhoneInput(){
+    function checkPhoneInput() {
         var stringValue = $('.order-input-phone').val();
         var size = stringValue.length;
 
-        if(stringValue.charAt(0) == '+'){
-            if(stringValue.charAt(1) == '3'){
-                if(stringValue.charAt(2) == '8'){
-                    if(stringValue.charAt(3) == '0'){
+        if (stringValue.charAt(0) == '+') {
+            if (stringValue.charAt(1) == '3') {
+                if (stringValue.charAt(2) == '8') {
+                    if (stringValue.charAt(3) == '0') {
                         var rest = stringValue.substring(4, stringValue.length);
                         var reg = /^\d+$/;
-                        if(!reg.test(rest)){
+                        if (!reg.test(rest)) {
                             checkPhoneInputError();
-                        }else if (rest.length == 9){
+                        } else if (rest.length == 9) {
                             checkPhoneInputSuccess();
                         }
-                    }else{
+                    } else {
                         checkPhoneInputError();
                     }
-                }else{
+                } else {
                     checkPhoneInputError();
                 }
-            }else{
+            } else {
                 checkPhoneInputError();
             }
-        }else if(stringValue.charAt(0) === '0'){
+        } else if (stringValue.charAt(0) === '0') {
             var rest = stringValue.substring(1, stringValue.length);
             var reg = /^\d+$/;
-            if(!reg.test(rest)){
+            if (!reg.test(rest)) {
                 checkPhoneInputError();
-            }else if(rest.length == 9){
+            } else if (rest.length == 9) {
                 checkPhoneInputSuccess();
             }
-        }else{
+        } else {
             checkPhoneInputError();
         }
     }
 
 
-
-    $('.order-input-name').on('input', function(){
-       checkNameInput();
-       sendData();
+    $('.order-input-name').on('input', function () {
+        checkNameInput();
+        sendData();
     });
 
-    $('.order-input-phone').on('input', function(){
+    $('.order-input-phone').on('input', function () {
         checkPhoneInput();
         sendData();
     });
 
-    $('.order-input-adress').on('input', function(callback){
-        var home = $('.order-input-adress').val();
-        //alert(home);
+    $('.order-input-adress').on('input', function (callback) {
+        /*var home = $('.order-input-adress').val();
         try{
             geocodeAddress(home);
-            $('#form-address').addClass("has-success");
-        }catch(Error){
+        }catch (Error){
             $('#form-address').addClass("has-error");
-        }
+        }*/
+        var home  = $('.order-input-adress').val();
+        var geocodeAddress = Google_Map.geocodeAddress;
+        //alert(value);
+        geocodeAddress(home, function(err, adress){
+            if(!err){
+                console.log(adress);
+            }else{
+                console.log("Немає адреси");
+            }
 
+        });
     });
 
-    function sendData(){
-        if(bool_name && bool_phone && bool_address){
+    function sendData() {
+        if (bool_name && bool_phone && bool_address) {
             var name = $('.order-input-name').val();
             var phone = $('.order-input-phone').val();
+            var total = $(".sum-number").val()
             PizzaCart.createOrder(name, phone);
         }
     }
 
-});
 
+        $('#create-order-b').on("click", function(){
+            LiqPayCheckout.init({
+                data:	order,
+                signature:	signature,
+                embedTo:	"#liqpay",
+                mode:	"embed"//"popup"	//	embed	||	popup
+            }).on("liqpay.callback",	function(data){
+                console.log(data.status);
+                console.log(data);
+            }).on("liqpay.ready",	function(data){
+                //	ready
+
+            }).on("liqpay.close",	function(data){
+                //	close
+            });
+        });
+
+    });
